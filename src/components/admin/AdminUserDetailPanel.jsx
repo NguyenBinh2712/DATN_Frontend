@@ -1,4 +1,4 @@
-import { User, X } from "lucide-react";
+import { User, X, Mail, Calendar, BadgeInfo, CircleDot } from "lucide-react";
 
 const GENDER_LABEL = {
   MALE: "Nam",
@@ -9,10 +9,37 @@ const GENDER_LABEL = {
 export default function AdminUserDetailPanel({ user, loading, onClose }) {
   if (!user && !loading) {
     return (
-      <aside className="flex h-full min-h-[420px] flex-col items-center justify-center rounded-xl border border-dashed border-slate-700 bg-slate-900/50 p-6 text-center">
-        <User size={40} className="mb-3 text-slate-600" />
-        <p className="text-sm text-slate-500">
-          Chọn người dùng và bấm &quot;Xem chi tiết&quot;
+      <aside
+        className="
+flex
+h-full
+min-h-[500px]
+flex-col
+items-center
+justify-center
+
+
+      rounded-[32px]
+
+      border
+      border-dashed
+      border-slate-300
+
+      bg-white/70
+      backdrop-blur-xl
+
+      p-8
+      text-center
+    "
+      >
+        <User size={52} className="mb-4 text-slate-400" />
+
+        <h3 className="text-lg font-semibold text-slate-800">
+          Chưa chọn người dùng
+        </h3>
+
+        <p className="mt-2 text-sm text-slate-500">
+          Chọn người dùng từ danh sách bên trái để xem thông tin chi tiết.
         </p>
       </aside>
     );
@@ -20,11 +47,31 @@ export default function AdminUserDetailPanel({ user, loading, onClose }) {
 
   if (loading) {
     return (
-      <aside className="rounded-xl border border-slate-800 bg-slate-900 p-6">
-        <div className="flex animate-pulse flex-col items-center gap-3">
-          <div className="h-20 w-20 rounded-full bg-slate-800" />
-          <div className="h-4 w-32 rounded bg-slate-800" />
-          <div className="h-3 w-48 rounded bg-slate-800" />
+      <aside
+        className="
+rounded-[32px]
+border
+border-slate-200
+
+
+      bg-white/80
+      backdrop-blur-xl
+
+      p-6
+    "
+      >
+        <div className="animate-pulse">
+          <div className="mx-auto h-24 w-24 rounded-full bg-slate-200" />
+
+          <div className="mt-5 h-5 rounded bg-slate-200" />
+
+          <div className="mt-3 h-4 rounded bg-slate-200" />
+
+          <div className="mt-8 space-y-3">
+            <div className="h-12 rounded-xl bg-slate-200" />
+            <div className="h-12 rounded-xl bg-slate-200" />
+            <div className="h-12 rounded-xl bg-slate-200" />
+          </div>
         </div>
       </aside>
     );
@@ -33,84 +80,246 @@ export default function AdminUserDetailPanel({ user, loading, onClose }) {
   const profile = user.profile;
 
   return (
-    <aside className="sticky top-6 rounded-xl border border-slate-800 bg-slate-900">
-      <div className="flex items-center justify-between border-b border-slate-800 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">
-          Chi tiết người dùng
-        </h2>
+    <aside
+      className="
+sticky
+top-6
+
+
+    overflow-hidden
+
+    rounded-[32px]
+
+    border
+    border-slate-200
+
+    bg-white/80
+    backdrop-blur-xl
+  "
+      style={{
+        boxShadow: "0 12px 40px rgba(102,126,234,.08)",
+      }}
+    >
+      <div
+        className="
+      flex
+      items-center
+      justify-between
+
+      border-b
+      border-slate-200
+
+      bg-white/80
+
+      px-5
+      py-4
+    "
+      >
+        <h2 className="font-semibold text-slate-800">Thông tin người dùng</h2>
+
         {onClose && (
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-500 hover:bg-slate-800 hover:text-white lg:hidden"
+            className="
+          rounded-xl
+          p-2
+
+          text-slate-500
+
+          transition
+
+          hover:bg-slate-100
+          hover:text-slate-800
+
+          lg:hidden
+        "
           >
-            <X size={16} />
+            <X size={18} />
           </button>
         )}
       </div>
 
-      <div className="p-4">
-        <div className="flex flex-col items-center text-center">
+      <div className="p-6">
+        <div className="text-center">
           {profile?.avatarUrl ? (
             <img
               src={profile.avatarUrl}
               alt=""
-              className="h-20 w-20 rounded-full object-cover ring-2 ring-slate-700"
+              className="
+            mx-auto
+            h-24
+            w-24
+            rounded-full
+            object-cover
+
+            ring-4
+            ring-purple-300
+          "
             />
           ) : (
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/20 text-2xl font-bold text-primary">
+            <div
+              className="
+            mx-auto
+
+            flex
+            h-24
+            w-24
+            items-center
+            justify-center
+
+            rounded-full
+
+            text-3xl
+            font-bold
+            text-white
+          "
+              style={{
+                background: "linear-gradient(135deg,#667eea,#c84b9e)",
+              }}
+            >
               {(profile?.fullName || user.email)?.[0]?.toUpperCase()}
             </div>
           )}
-          <h3 className="mt-3 text-lg font-semibold text-white">
+
+          <h3 className="mt-4 text-xl font-bold text-slate-800">
             {profile?.fullName || "Chưa cập nhật tên"}
           </h3>
-          <p className="text-sm text-slate-400">{user.email}</p>
-          <span
-            className={`mt-2 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+
+          <p className="mt-1 text-sm text-slate-500">{user.email}</p>
+
+          <div className="mt-4">
+            <span
+              className={`
+            inline-flex
+            items-center
+            gap-2
+
+            rounded-full
+
+            px-3
+            py-1
+
+            text-xs
+            font-semibold
+
+            ${
               user.status
-                ? "bg-emerald-500/20 text-emerald-400"
-                : "bg-slate-700 text-slate-400"
-            }`}
-          >
-            {user.status ? "Đang online" : "Offline"}
-          </span>
+                ? "bg-emerald-100 text-emerald-600"
+                : "bg-slate-100 text-slate-500"
+            }
+          `}
+            >
+              <CircleDot size={12} />
+              {user.status ? "Đang hoạt động" : "Ngoại tuyến"}
+            </span>
+          </div>
         </div>
 
-        <dl className="mt-5 space-y-3 text-sm">
-          <div className="flex justify-between gap-2 border-b border-slate-800 pb-2">
-            <dt className="text-slate-500">ID</dt>
-            <dd className="font-medium text-slate-200">#{user.id}</dd>
-          </div>
-          <div className="flex justify-between gap-2 border-b border-slate-800 pb-2">
-            <dt className="text-slate-500">Ngày tạo</dt>
-            <dd className="text-slate-200">{user.createAt || "—"}</dd>
-          </div>
+        <div className="mt-8 space-y-3">
+          <InfoRow
+            icon={<BadgeInfo size={16} />}
+            label="ID"
+            value={`#${user.id}`}
+          />
+
+          <InfoRow icon={<Mail size={16} />} label="Email" value={user.email} />
+
+          <InfoRow
+            icon={<Calendar size={16} />}
+            label="Ngày tạo"
+            value={user.createAt || "—"}
+          />
+
           {profile?.gender && (
-            <div className="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <dt className="text-slate-500">Giới tính</dt>
-              <dd className="text-slate-200">
-                {GENDER_LABEL[profile.gender] || profile.gender}
-              </dd>
-            </div>
+            <InfoRow
+              icon={<User size={16} />}
+              label="Giới tính"
+              value={GENDER_LABEL[profile.gender] || profile.gender}
+            />
           )}
+
           {profile?.birth && (
-            <div className="flex justify-between gap-2 border-b border-slate-800 pb-2">
-              <dt className="text-slate-500">Ngày sinh</dt>
-              <dd className="text-slate-200">{profile.birth}</dd>
-            </div>
+            <InfoRow
+              icon={<Calendar size={16} />}
+              label="Ngày sinh"
+              value={profile.birth}
+            />
           )}
-        </dl>
+        </div>
 
         {profile?.bio && (
-          <div className="mt-4 rounded-lg bg-slate-950 p-3">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-              Bio
+          <div
+            className="
+          mt-6
+
+          rounded-2xl
+
+          border
+          border-slate-200
+
+          bg-white
+
+          p-4
+        "
+          >
+            <p
+              className="
+            text-xs
+            font-semibold
+            uppercase
+            tracking-wider
+            text-slate-500
+          "
+            >
+              Giới thiệu
             </p>
-            <p className="mt-1 text-sm text-slate-300">{profile.bio}</p>
+
+            <p
+              className="
+            mt-3
+            text-sm
+            leading-6
+            text-slate-700
+          "
+            >
+              {profile.bio}
+            </p>
           </div>
         )}
       </div>
     </aside>
+  );
+}
+
+function InfoRow({ icon, label, value }) {
+  return (
+    <div
+      className="
+flex
+items-center
+justify-between
+
+
+    rounded-2xl
+
+    border
+    border-slate-200
+
+    bg-white
+
+    px-4
+    py-3
+
+    shadow-sm
+  "
+    >
+      <div className="flex items-center gap-2 text-slate-500">
+        {icon}
+        <span>{label}</span>
+      </div>
+
+      <span className="font-semibold text-slate-800">{value}</span>
+    </div>
   );
 }
