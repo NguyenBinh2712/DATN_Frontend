@@ -201,7 +201,7 @@ export default function QuizTakePage() {
   const secs = timeLeft != null ? String(timeLeft % 60).padStart(2, '0') : '--'
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4">
+    <div className="fade-in-up mx-auto max-w-2xl space-y-4">
       <div className="sticky top-16 z-10 flex items-center justify-between rounded-xl border border-border bg-white p-4 shadow-sm">
         <div>
           <h1 className="text-lg font-bold">{quiz.title}</h1>

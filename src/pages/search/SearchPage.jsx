@@ -35,7 +35,7 @@ export default function SearchPage() {
   const total = users.length + posts.length + groups.length
 
   return (
-    <div className="space-y-6">
+    <div className="fade-in-up space-y-6">
       <h1 className="text-2xl font-bold">Tìm kiếm</h1>
 
       <form onSubmit={search} className="flex gap-2">

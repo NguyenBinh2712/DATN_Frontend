@@ -25,38 +25,33 @@ function NavItem({ to, icon: Icon, children, end }) {
       to={to}
       end={end}
       className={({ isActive }) =>
-        `
-        group
-        flex
-        items-center
-        gap-3
-        rounded-2xl
-        px-4
-        py-3
-        text-sm
-        font-semibold
-        transition-all
-        duration-300
-        ${
+        `group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
           isActive
-            ? "text-white shadow-lg scale-[1.02]"
-            : "text-slate-600 hover:bg-white/80 hover:translate-x-1 hover:shadow-md"
-        }
-      `
+            ? "text-white shadow-lg shadow-indigo-500/30 scale-[1.02]"
+            : "text-slate-500 hover:bg-indigo-50 hover:text-indigo-700"
+        }`
       }
       style={({ isActive }) =>
         isActive
           ? {
-              background: "linear-gradient(135deg,#667eea 0%,#c84b9e 100%)",
+              background: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)",
+              boxShadow:
+                "0 4px 16px rgba(102,126,234,0.4), 0 2px 6px rgba(102,126,234,0.2)",
             }
           : {}
       }
     >
-      <Icon
-        size={18}
-        className="transition-transform duration-300 group-hover:scale-110"
-      />
-      {children}
+      {({ isActive }) => (
+        <>
+          <Icon
+            size={18}
+            className={`transition-all duration-200 ${
+              isActive ? "" : "group-hover:text-indigo-600 group-hover:scale-110"
+            }`}
+          />
+          {children}
+        </>
+      )}
     </NavLink>
   );
 }
@@ -74,25 +69,30 @@ export default function AppShell({ badge }) {
     <div
       className="min-h-screen"
       style={{
-        background:
-          "linear-gradient(135deg,#f8faff 0%,#eef2ff 45%,#fdf4ff 100%)",
+        background: "linear-gradient(135deg,#f0f4ff 0%,#faf5ff 50%,#f0fdf9 100%)",
+        minHeight: "100vh",
       }}
     >
       {/* HEADER */}
       <header
-        className="sticky top-0 z-50 border-b border-white/30 backdrop-blur-xl"
+        className="sticky top-0 z-50 backdrop-blur-xl"
         style={{
-          background: "rgba(255,255,255,.75)",
-          boxShadow: "0 8px 32px rgba(102,126,234,.08)",
+          background: "rgba(255,255,255,0.82)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: "1px solid rgba(99,102,241,0.10)",
+          boxShadow:
+            "0 4px 24px rgba(99,102,241,0.08), 0 1px 0 rgba(255,255,255,0.8) inset",
         }}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
           <Link to="/" className="flex items-center gap-3">
             <div
-              className="flex h-11 w-11 items-center justify-center rounded-2xl text-xl text-white"
+              className="shine flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl text-xl text-white"
               style={{
                 background: "linear-gradient(135deg,#667eea 0%,#c84b9e 100%)",
-                boxShadow: "0 10px 25px rgba(102,126,234,.35)",
+                boxShadow:
+                  "0 8px 24px rgba(102,126,234,0.45), 0 2px 8px rgba(102,126,234,0.2)",
               }}
             >
               🎓
@@ -133,7 +133,7 @@ export default function AppShell({ badge }) {
                 <img
                   src={user.profile.avatarUrl}
                   alt=""
-                  className="h-11 w-11 rounded-full object-cover ring-2 ring-purple-300 shadow-lg"
+                  className="h-11 w-11 rounded-full object-cover ring-2 ring-indigo-400 ring-offset-2 shadow-lg"
                 />
               ) : (
                 <div
@@ -174,9 +174,10 @@ export default function AppShell({ badge }) {
           <nav
             className="sticky top-24 space-y-2 rounded-[30px] p-4 backdrop-blur-xl"
             style={{
-              background: "rgba(255,255,255,.7)",
-              border: "1px solid rgba(255,255,255,.9)",
-              boxShadow: "0 12px 40px rgba(102,126,234,.12)",
+              background: "rgba(255,255,255,0.80)",
+              border: "1px solid rgba(255,255,255,0.95)",
+              boxShadow:
+                "0 8px 32px rgba(99,102,241,0.10), 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1)",
             }}
           >
             <NavItem to="/" icon={Home} end>
@@ -211,7 +212,13 @@ export default function AppShell({ badge }) {
 
             {isTeacher && (
               <>
-                <div className="my-3 border-t border-slate-200" />
+                <div
+                  className="my-3 mx-2 h-px"
+                  style={{
+                    background:
+                      "linear-gradient(90deg,transparent,rgba(99,102,241,0.2),transparent)",
+                  }}
+                />
 
                 <NavItem to="/groups/create" icon={PlusCircle}>
                   Tạo nhóm
@@ -233,7 +240,13 @@ export default function AppShell({ badge }) {
               </NavItem>
             )}
 
-            <div className="my-3 border-t border-slate-200" />
+            <div
+              className="my-3 mx-2 h-px"
+              style={{
+                background:
+                  "linear-gradient(90deg,transparent,rgba(99,102,241,0.2),transparent)",
+              }}
+            />
 
             <NavItem to="/settings/blocked" icon={Ban}>
               Đã chặn
@@ -241,7 +254,13 @@ export default function AppShell({ badge }) {
 
             {isAdmin && (
               <>
-                <div className="my-3 border-t border-slate-200" />
+                <div
+                  className="my-3 mx-2 h-px"
+                  style={{
+                    background:
+                      "linear-gradient(90deg,transparent,rgba(99,102,241,0.2),transparent)",
+                  }}
+                />
 
                 <NavItem to="/admin" icon={Shield}>
                   Quản trị
@@ -255,9 +274,12 @@ export default function AppShell({ badge }) {
         <main
           className="min-w-0 rounded-[32px] p-6 backdrop-blur-xl"
           style={{
-            background: "rgba(255,255,255,.55)",
-            border: "1px solid rgba(255,255,255,.8)",
-            boxShadow: "0 12px 40px rgba(102,126,234,.08)",
+            background: "rgba(255,255,255,0.70)",
+            border: "1px solid rgba(255,255,255,0.95)",
+            boxShadow:
+              "0 8px 40px rgba(99,102,241,0.08), 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
           }}
         >
           <Outlet />

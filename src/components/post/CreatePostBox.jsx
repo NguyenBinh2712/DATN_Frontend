@@ -51,7 +51,12 @@ export default function CreatePostBox({ onCreated, groupId }) {
   };
 
   return (
-    <div className="rounded-xl border border-border bg-white p-4 shadow-sm">
+    <div
+      className="rounded-2xl border border-slate-100 bg-white p-5"
+      style={{
+        boxShadow: "0 4px 24px rgba(99,102,241,0.07), 0 1px 3px rgba(0,0,0,0.04)",
+      }}
+    >
       <Textarea
         placeholder="Bạn đang nghĩ gì?"
         value={content}
@@ -92,7 +97,7 @@ export default function CreatePostBox({ onCreated, groupId }) {
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted hover:bg-slate-100"
+          className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-500 transition-colors duration-150 hover:bg-indigo-50 hover:text-indigo-600"
         >
           <ImagePlus size={18} /> Ảnh/Video
         </button>

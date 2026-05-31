@@ -19,7 +19,7 @@ export default function QuizListPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <h1 className="text-2xl font-bold">Quiz công khai</h1>
       <div className="grid gap-4 sm:grid-cols-2">
         {quizzes.map((q) => (

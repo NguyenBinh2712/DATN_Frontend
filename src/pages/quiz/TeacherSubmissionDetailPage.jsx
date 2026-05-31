@@ -50,7 +50,7 @@ export default function TeacherSubmissionDetailPage() {
   }, {})
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4">
+    <div className="fade-in-up mx-auto max-w-2xl space-y-4">
       <div className="flex items-center gap-3">
         <Link
           to={`/teacher/quizzes/${quizId}/submissions`}

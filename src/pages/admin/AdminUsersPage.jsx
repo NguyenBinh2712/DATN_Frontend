@@ -5,6 +5,8 @@ import { Button } from '../../components/common/Button'
 import LoadingSpinner from '../../components/common/LoadingSpinner'
 import { getErrorMessage } from '../../utils/helpers'
 
+const CARD_SHADOW = '0 4px 24px rgba(99,102,241,0.07), 0 1px 3px rgba(0,0,0,0.04)'
+
 export default function AdminUsersPage() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
@@ -61,29 +63,35 @@ export default function AdminUsersPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-slate-800">Quản lý người dùng</h1>
+    <div className="fade-in-up">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-slate-800">Quản lý người dùng</h1>
+        <p className="mt-1 text-sm text-slate-500">Xem, tìm kiếm và quản lý tài khoản</p>
+      </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_300px]">
+      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
         <div className="min-w-0">
-          <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+          <div
+            className="overflow-x-auto rounded-2xl border border-slate-100 bg-white"
+            style={{ boxShadow: CARD_SHADOW }}
+          >
             <table className="w-full min-w-[560px] text-left text-sm">
-              <thead className="bg-slate-50 text-slate-500">
+              <thead className="bg-indigo-50/80 text-xs uppercase tracking-wider text-slate-600">
                 <tr>
-                  <th className="px-4 py-3">ID</th>
-                  <th className="px-4 py-3">Email</th>
-                  <th className="px-4 py-3">Tên</th>
-                  <th className="px-4 py-3">Online</th>
-                  <th className="px-4 py-3">Ngày tạo</th>
-                  <th className="px-4 py-3"></th>
+                  <th className="px-4 py-3 font-semibold">ID</th>
+                  <th className="px-4 py-3 font-semibold">Email</th>
+                  <th className="px-4 py-3 font-semibold">Tên</th>
+                  <th className="px-4 py-3 font-semibold">Online</th>
+                  <th className="px-4 py-3 font-semibold">Ngày tạo</th>
+                  <th className="px-4 py-3 font-semibold"></th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((u) => (
                   <tr
                     key={u.id}
-                    className={`border-t border-slate-200 text-slate-600 transition ${
-                      selectedId === u.id ? 'bg-primary/10' : 'hover:bg-slate-50'
+                    className={`border-t border-slate-100 text-slate-600 transition ${
+                      selectedId === u.id ? 'bg-primary/10' : 'hover:bg-indigo-50/60'
                     }`}
                   >
                     <td className="px-4 py-3">{u.id}</td>

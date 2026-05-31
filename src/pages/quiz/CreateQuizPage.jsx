@@ -42,7 +42,7 @@ export default function CreateQuizPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-2xl space-y-4">
+    <form onSubmit={handleSubmit} className="fade-in-up mx-auto max-w-2xl space-y-4">
       <h1 className="text-2xl font-bold">Tạo Quiz</h1>
       <Input
         label="Tiêu đề"

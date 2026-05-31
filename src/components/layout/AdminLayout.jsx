@@ -37,8 +37,8 @@ export default function AdminLayout() {
     <div
       className="min-h-screen"
       style={{
-        background:
-          "linear-gradient(135deg,#f8faff 0%,#eef2ff 45%,#fdf4ff 100%)",
+        background: "linear-gradient(135deg,#f0f4ff 0%,#faf5ff 60%,#fdf4ff 100%)",
+        minHeight: "100vh",
       }}
     >
       <div className="flex min-h-screen">
@@ -53,9 +53,10 @@ export default function AdminLayout() {
             backdrop-blur-xl
           "
           style={{
-            background: "rgba(255,255,255,.65)",
-            borderRight: "1px solid rgba(255,255,255,.8)",
-            boxShadow: "0 12px 40px rgba(102,126,234,.08)",
+            background: "rgba(255,255,255,0.82)",
+            borderRight: "1px solid rgba(99,102,241,0.10)",
+            boxShadow:
+              "4px 0 24px rgba(99,102,241,0.07), inset -1px 0 0 rgba(255,255,255,0.8)",
           }}
         >
           {/* Logo */}
@@ -105,38 +106,35 @@ export default function AdminLayout() {
                 to={to}
                 end={end}
                 className={({ isActive }) =>
-                  `
-                  group
-                  flex
-                  items-center
-                  gap-3
-                  rounded-2xl
-                  px-4
-                  py-3
-                  text-sm
-                  font-semibold
-                  transition-all
-                  duration-300
-                  ${
+                  `group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
                     isActive
-                      ? "text-white shadow-lg scale-[1.02]"
-                      : "text-slate-600 hover:bg-white hover:translate-x-1 hover:shadow-md"
-                  }
-                `
+                      ? "text-white shadow-lg shadow-indigo-500/30 scale-[1.02]"
+                      : "text-slate-500 hover:bg-indigo-50 hover:text-indigo-700"
+                  }`
                 }
                 style={({ isActive }) =>
                   isActive
                     ? {
-                        background: "linear-gradient(135deg,#667eea,#c84b9e)",
+                        background: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)",
+                        boxShadow:
+                          "0 4px 16px rgba(102,126,234,0.4), 0 2px 6px rgba(102,126,234,0.2)",
                       }
                     : {}
                 }
               >
-                <Icon
-                  size={18}
-                  className="transition-transform duration-300 group-hover:scale-110"
-                />
-                {label}
+                {({ isActive }) => (
+                  <>
+                    <Icon
+                      size={18}
+                      className={`transition-all duration-200 ${
+                        isActive
+                          ? ""
+                          : "group-hover:text-indigo-600 group-hover:scale-110"
+                      }`}
+                    />
+                    {label}
+                  </>
+                )}
               </NavLink>
             ))}
           </nav>
@@ -179,8 +177,11 @@ export default function AdminLayout() {
               backdrop-blur-xl
             "
             style={{
-              background: "rgba(255,255,255,.7)",
-              borderBottom: "1px solid rgba(255,255,255,.9)",
+              background: "rgba(255,255,255,0.85)",
+              backdropFilter: "blur(20px)",
+              WebkitBackdropFilter: "blur(20px)",
+              borderBottom: "1px solid rgba(99,102,241,0.10)",
+              boxShadow: "0 4px 20px rgba(99,102,241,0.06)",
             }}
           >
             <div>
@@ -206,9 +207,10 @@ export default function AdminLayout() {
                 backdrop-blur-xl
               "
               style={{
-                background: "rgba(255,255,255,.55)",
-                border: "1px solid rgba(255,255,255,.9)",
-                boxShadow: "0 12px 40px rgba(102,126,234,.08)",
+                background: "rgba(255,255,255,0.70)",
+                border: "1px solid rgba(255,255,255,0.95)",
+                boxShadow:
+                  "0 8px 40px rgba(99,102,241,0.08), inset 0 1px 0 rgba(255,255,255,1)",
               }}
             >
               <Outlet />

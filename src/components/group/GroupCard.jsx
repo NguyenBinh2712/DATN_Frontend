@@ -1,15 +1,32 @@
 import { Users } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const CARD_SHADOW =
+  "0 4px 24px rgba(99,102,241,0.07), 0 1px 3px rgba(0,0,0,0.04)";
+const CARD_SHADOW_HOVER =
+  "0 12px 40px rgba(99,102,241,0.14), 0 4px 12px rgba(0,0,0,0.06)";
+
 export default function GroupCard({ group, actions }) {
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-white shadow-sm">
+    <div
+      className="overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-300 hover:-translate-y-1"
+      style={{ boxShadow: CARD_SHADOW }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = CARD_SHADOW_HOVER;
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = CARD_SHADOW;
+      }}
+    >
       <div
-        className="h-24 bg-gradient-to-r from-primary/20 to-blue-100 bg-cover bg-center"
+        className="h-28 bg-cover bg-center"
         style={
           group.coverImageUrl
             ? { backgroundImage: `url(${group.coverImageUrl})` }
-            : undefined
+            : {
+                background:
+                  "linear-gradient(135deg,#667eea22 0%,#c84b9e22 50%,#38bdf822 100%)",
+              }
         }
       />
       <div className="p-4">
@@ -26,7 +43,7 @@ export default function GroupCard({ group, actions }) {
           <span className="flex items-center gap-1">
             <Users size={14} /> {group.memberCount} thành viên
           </span>
-          <span className="rounded-full bg-slate-100 px-2 py-0.5">
+          <span className="rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-0.5 font-medium text-indigo-600">
             {group.privacy}
           </span>
         </div>

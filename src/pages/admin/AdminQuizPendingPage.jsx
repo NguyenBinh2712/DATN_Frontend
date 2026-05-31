@@ -4,6 +4,8 @@ import { Button } from '../../components/common/Button'
 import LoadingSpinner from '../../components/common/LoadingSpinner'
 import { getErrorMessage } from '../../utils/helpers'
 
+const CARD_SHADOW = '0 4px 24px rgba(99,102,241,0.07), 0 1px 3px rgba(0,0,0,0.04)'
+
 export default function AdminQuizPendingPage() {
   const [quizzes, setQuizzes] = useState([])
   const [loading, setLoading] = useState(true)
@@ -32,13 +34,18 @@ export default function AdminQuizPendingPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-slate-800">Duyệt Quiz</h1>
-      <div className="mt-6 space-y-3">
+    <div className="fade-in-up">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-slate-800">Duyệt Quiz</h1>
+        <p className="mt-1 text-sm text-slate-500">Phê duyệt quiz trước khi công khai</p>
+      </div>
+
+      <div className="space-y-3">
         {quizzes.map((q) => (
           <div
             key={q.id}
-            className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+            className="flex items-center justify-between rounded-2xl border border-slate-100 bg-white p-5 transition-all duration-200 hover:border-indigo-200"
+            style={{ boxShadow: CARD_SHADOW }}
           >
             <div>
               <p className="font-medium text-slate-800">{q.title}</p>
@@ -53,7 +60,10 @@ export default function AdminQuizPendingPage() {
           </div>
         ))}
         {quizzes.length === 0 && (
-          <p className="text-slate-500">Không có quiz chờ duyệt</p>
+          <div className="rounded-2xl border-2 border-dashed border-indigo-200 bg-indigo-50/40 p-10 text-center">
+            <div className="mb-3 text-4xl">📭</div>
+            <p className="font-medium text-slate-500">Không có quiz chờ duyệt</p>
+          </div>
         )}
       </div>
     </div>

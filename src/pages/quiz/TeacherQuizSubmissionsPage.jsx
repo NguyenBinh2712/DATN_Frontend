@@ -20,7 +20,7 @@ export default function TeacherQuizSubmissionsPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <div className="flex items-center gap-3">
         <Link to="/teacher/quizzes" className="text-sm text-primary hover:underline">
           ← Quay lại

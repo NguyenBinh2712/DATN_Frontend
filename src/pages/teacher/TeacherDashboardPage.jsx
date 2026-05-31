@@ -69,7 +69,7 @@ export default function TeacherDashboardPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-6">
+    <div className="fade-in-up space-y-6">
       <div className="flex items-center gap-3">
         <div className="rounded-xl bg-emerald-100 p-3">
           <BookOpen className="text-emerald-700" size={24} />

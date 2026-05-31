@@ -39,7 +39,7 @@ export default function CreateGroupPage() {
   }
 
   return (
-    <div className="mx-auto max-w-lg space-y-4">
+    <div className="fade-in-up mx-auto max-w-lg space-y-4">
       <h1 className="text-2xl font-bold">Tạo nhóm mới</h1>
       <p className="text-sm text-muted">Chỉ giáo viên được tạo nhóm học tập</p>
 

@@ -91,9 +91,13 @@ export default function HomePage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <CreatePostBox onCreated={handleCreated} />
-      {error && <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600">{error}</div>}
+      {error && (
+        <div className="fade-in rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+          {error}
+        </div>
+      )}
       {posts.map((post) => (
         <PostCard
           key={post.id}
@@ -103,8 +107,9 @@ export default function HomePage() {
         />
       ))}
       {posts.length === 0 && (
-        <div className="rounded-xl border border-dashed border-border bg-white p-8 text-center text-muted">
-          Chưa có bài viết nào
+        <div className="rounded-2xl border-2 border-dashed border-indigo-200 bg-indigo-50/40 p-10 text-center">
+          <div className="mb-3 text-4xl">📭</div>
+          <p className="font-medium text-slate-500">Chưa có bài viết nào</p>
         </div>
       )}
       {hasMore && (

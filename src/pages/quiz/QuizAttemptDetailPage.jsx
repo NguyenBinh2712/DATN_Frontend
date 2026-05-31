@@ -70,7 +70,7 @@ export default function QuizAttemptDetailPage() {
   const canRequestAi = attempt.status !== 'IN_PROGRESS' && !aiReview
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4">
+    <div className="fade-in-up mx-auto max-w-2xl space-y-4">
       <div className="flex items-center gap-3">
         <Link to={`/quizzes/${quizId}/attempts`} className="text-sm text-primary hover:underline">
           ← Lịch sử

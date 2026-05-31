@@ -20,7 +20,7 @@ export default function MyGroupsPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Nhóm của tôi</h1>
         <Link to="/groups" className="text-sm text-primary hover:underline">
@@ -34,12 +34,15 @@ export default function MyGroupsPage() {
         ))}
       </div>
       {groups.length === 0 && (
-        <p className="rounded-xl border border-dashed border-border bg-white p-8 text-center text-muted">
-          Bạn chưa tham gia nhóm nào.{' '}
-          <Link to="/groups" className="text-primary hover:underline">
-            Khám phá ngay
-          </Link>
-        </p>
+        <div className="rounded-2xl border-2 border-dashed border-indigo-200 bg-indigo-50/40 p-10 text-center">
+          <div className="mb-3 text-4xl">📭</div>
+          <p className="font-medium text-slate-500">
+            Bạn chưa tham gia nhóm nào.{' '}
+            <Link to="/groups" className="text-primary hover:underline">
+              Khám phá ngay
+            </Link>
+          </p>
+        </div>
       )}
     </div>
   )

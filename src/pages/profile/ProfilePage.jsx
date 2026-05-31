@@ -118,7 +118,7 @@ export default function ProfilePage() {
   const hidePosts = !isMe && (blocked || isBlocked(targetId))
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
           <div className="relative">
@@ -126,15 +126,21 @@ export default function ProfilePage() {
               <img
                 src={user.profile.avatarUrl}
                 alt=""
-                className="h-24 w-24 rounded-full object-cover"
+                className="h-24 w-24 rounded-full object-cover ring-4 ring-indigo-400/40 ring-offset-2"
               />
             ) : (
-              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+              <div
+                className="flex h-24 w-24 items-center justify-center rounded-full text-2xl font-bold text-white ring-4 ring-indigo-400/40 ring-offset-2"
+                style={{ background: "linear-gradient(135deg,#667eea,#c84b9e)" }}
+              >
                 {(user.profile?.fullName || user.email)[0].toUpperCase()}
               </div>
             )}
             {isMe && (
-              <label className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-primary px-2 py-1 text-xs text-white">
+              <label
+                className="absolute bottom-0 right-0 cursor-pointer rounded-full px-2 py-1 text-xs font-semibold text-white shadow-md shadow-indigo-500/30 transition-all"
+                style={{ background: "linear-gradient(135deg,#667eea,#764ba2)" }}
+              >
                 Đổi
                 <input type="file" accept="image/*" className="hidden" onChange={handleAvatar} />
               </label>

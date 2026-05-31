@@ -123,7 +123,7 @@ export default function FriendsPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <h1 className="text-2xl font-bold">Bạn bè</h1>
 
       <div className="flex flex-wrap gap-2 border-b border-border pb-2">

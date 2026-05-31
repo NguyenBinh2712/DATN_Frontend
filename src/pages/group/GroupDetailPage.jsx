@@ -179,15 +179,19 @@ export default function GroupDetailPage() {
   if (!group) return null
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <Link to="/groups" className="text-sm text-primary hover:underline">
         ← Quay lại nhóm
       </Link>
 
       <div className="overflow-hidden rounded-xl border border-border bg-white shadow-sm">
         <div
-          className="h-32 bg-gradient-to-r from-primary/30 to-blue-200 bg-cover bg-center"
-          style={group.coverImageUrl ? { backgroundImage: `url(${group.coverImageUrl})` } : undefined}
+          className="h-32 bg-cover bg-center"
+          style={
+            group.coverImageUrl
+              ? { backgroundImage: `url(${group.coverImageUrl})` }
+              : { background: "linear-gradient(135deg,#667eea 0%,#764ba2 50%,#c84b9e 100%)" }
+          }
         />
         <div className="p-5">
           <h1 className="text-2xl font-bold">{group.name}</h1>
@@ -240,8 +244,11 @@ export default function GroupDetailPage() {
             key={t}
             type="button"
             onClick={() => setTab(t)}
-            className={`rounded-lg px-4 py-2 text-sm font-medium ${
-              tab === t ? 'bg-primary text-white' : 'bg-white text-slate-600'
+            style={tab === t ? { background: "linear-gradient(135deg,#667eea,#c84b9e)" } : {}}
+            className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+              tab === t
+                ? "text-white shadow-lg shadow-indigo-500/25"
+                : "border border-slate-200 bg-white text-slate-600 hover:bg-indigo-50 hover:text-indigo-700"
             }`}
           >
             {t === 'feed' && 'Bài viết'}

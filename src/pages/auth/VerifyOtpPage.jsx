@@ -79,7 +79,7 @@ export default function VerifyOtpPage() {
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {error && (
-          <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</div>
+          <div className="fade-in rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">{error}</div>
         )}
         <Input label="Email" type="email" error={errors.email?.message} {...register('email')} />
         <Input

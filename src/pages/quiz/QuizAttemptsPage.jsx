@@ -27,7 +27,7 @@ export default function QuizAttemptsPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <div className="flex items-center gap-3">
         <Link to="/quizzes" className="text-sm text-primary hover:underline">
           ← Danh sách quiz

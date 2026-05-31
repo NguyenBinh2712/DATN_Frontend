@@ -49,7 +49,7 @@ export default function BlockedUsersPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <h1 className="text-2xl font-bold">Người đã chặn</h1>
       <p className="text-sm text-muted">
         Bài viết và tương tác từ những người này sẽ không hiển thị trên feed của bạn.
@@ -71,9 +71,10 @@ export default function BlockedUsersPage() {
           </div>
         ))}
         {users.length === 0 && (
-          <p className="rounded-xl border border-dashed border-border bg-white p-8 text-center text-muted">
-            Chưa chặn ai
-          </p>
+          <div className="rounded-2xl border-2 border-dashed border-indigo-200 bg-indigo-50/40 p-10 text-center">
+            <div className="mb-3 text-4xl">📭</div>
+            <p className="font-medium text-slate-500">Chưa chặn ai</p>
+          </div>
         )}
       </div>
     </div>

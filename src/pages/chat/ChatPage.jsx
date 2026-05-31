@@ -380,7 +380,7 @@ export default function ChatPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-3">
+    <div className="fade-in-up space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl font-bold">Tin nhắn</h1>
         <div className="flex gap-2">

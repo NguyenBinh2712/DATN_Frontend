@@ -33,7 +33,7 @@ export default function TeacherQuizListPage() {
   if (loading) return <LoadingSpinner />
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Quiz của tôi</h1>
         <Link to="/teacher/quizzes/create">

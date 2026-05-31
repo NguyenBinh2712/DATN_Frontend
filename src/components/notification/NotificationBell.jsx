@@ -33,19 +33,25 @@ export default function NotificationBell() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="relative rounded-lg p-2 text-slate-600 transition hover:bg-slate-100"
+        className="relative rounded-xl p-2.5 text-slate-500 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-600"
         aria-label="Thông báo"
       >
         <Bell size={20} />
         {unreadCount > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+          <span className="absolute -right-0.5 -top-0.5 flex min-w-[18px] items-center justify-center rounded-full bg-gradient-to-r from-red-500 to-rose-500 px-1 text-[10px] font-bold text-white shadow-sm shadow-red-500/40">
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-80 overflow-hidden rounded-xl border border-border bg-white shadow-xl sm:w-96">
+        <div
+          className="fade-in scale-in absolute right-0 z-50 mt-2 w-80 overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-2xl sm:w-96"
+          style={{
+            boxShadow:
+              "0 20px 60px rgba(99,102,241,0.18), 0 4px 16px rgba(0,0,0,0.08)",
+          }}
+        >
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <h3 className="font-semibold text-slate-900">Thông báo</h3>
             <button

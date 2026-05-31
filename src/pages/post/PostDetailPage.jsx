@@ -77,7 +77,7 @@ export default function PostDetailPage() {
   if (!post) return null
 
   return (
-    <div className="space-y-4">
+    <div className="fade-in-up space-y-4">
       <Link to="/" className="text-sm text-primary hover:underline">
         ← Quay lại feed
       </Link>

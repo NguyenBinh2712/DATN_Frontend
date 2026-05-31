@@ -90,13 +90,13 @@ export default function TeacherApplyPage() {
   }
 
   return (
-    <div className="rounded-xl border border-border bg-white p-6">
+    <div className="fade-in-up rounded-xl border border-border bg-white p-6">
       <h1 className="text-xl font-bold">Đăng ký làm giáo viên</h1>
       <p className="mt-1 text-sm text-muted">Điền form và upload tài liệu đính kèm</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
         {error && (
-          <div className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</div>
+          <div className="fade-in rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">{error}</div>
         )}
         <Textarea
           label="Lý do đăng ký *"
