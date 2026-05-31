@@ -36,7 +36,7 @@ export default function MessageBubble({
           </p>
         )}
         <div
-          className={`rounded-2xl px-3 py-2 text-sm ${
+          className={`overflow-hidden rounded-2xl px-3 py-2 text-sm ${
             isMine ? "bg-primary text-white" : "bg-slate-100 text-slate-800"
           }`}
         >
@@ -48,11 +48,19 @@ export default function MessageBubble({
             </p>
           )}
           {msg.messageMedias?.map((m, i) => (
-            <div key={i} className="mt-2">
+            <div key={i} className="mt-2 max-w-full overflow-hidden">
               {m.mediaType === "VIDEO" ? (
-                <video src={m.url} controls className="max-h-48 rounded-lg" />
+                <video
+                  src={m.url}
+                  controls
+                  className="max-h-48 max-w-full rounded-lg object-contain"
+                />
               ) : m.mediaType === "IMAGE" ? (
-                <img src={m.url} alt="" className="max-h-48 rounded-lg" />
+                <img
+                  src={m.url}
+                  alt=""
+                  className="max-h-48 max-w-full rounded-lg object-contain"
+                />
               ) : (
                 <a
                   href={m.url}

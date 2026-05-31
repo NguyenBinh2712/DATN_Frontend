@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Archive, MessageCirclePlus, Settings, Users } from 'lucide-react'
+import { Archive, ImagePlus, MessageCirclePlus, Settings, Users, X } from 'lucide-react'
 import { conversationApi } from '../../api/conversation.api'
 import { chatApi } from '../../api/chat.api'
 import { friendApi } from '../../api/friend.api'
@@ -62,6 +62,7 @@ export default function ChatPage() {
   const [msgLoading, setMsgLoading] = useState(false)
   const [content, setContent] = useState('')
   const [files, setFiles] = useState([])
+  const [filePreviews, setFilePreviews] = useState([])
   const [typingUser, setTypingUser] = useState(null)
   const [replyTo, setReplyTo] = useState(null)
   const [editingMsg, setEditingMsg] = useState(null)
@@ -73,6 +74,8 @@ export default function ChatPage() {
   const [selectedMembers, setSelectedMembers] = useState([])
 
   const messagesEndRef = useRef(null)
+  const messagesContainerRef = useRef(null)
+  const fileInputRef = useRef(null)
   const typingTimer = useRef(null)
   const sendingRef = useRef(false)
   const friendsRef = useRef([])
@@ -128,6 +131,11 @@ export default function ChatPage() {
     [conversations, archived, userId],
   )
 
+  const clearFiles = useCallback(() => {
+    setFiles([])
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }, [])
+
   useEffect(() => {
     loadConversations().finally(() => setLoading(false))
   }, [loadConversations])
@@ -137,13 +145,15 @@ export default function ChatPage() {
       setMessages([])
       setReplyTo(null)
       setEditingMsg(null)
+      clearFiles()
       return
     }
     setReplyTo(null)
     setEditingMsg(null)
     setShowGroupManage(false)
+    clearFiles()
     loadMessages(activeConvId)
-  }, [activeConvId, loadMessages])
+  }, [activeConvId, loadMessages, clearFiles])
 
   useEffect(() => {
     if (!activeConvId || !connected) return
@@ -204,9 +214,66 @@ export default function ChatPage() {
     loadConversations,
   ])
 
+  const scrollToBottom = useCallback((smooth = false) => {
+    const container = messagesContainerRef.current
+    if (!container) return
+
+    const run = () => {
+      if (smooth) {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+      } else {
+        container.scrollTop = container.scrollHeight
+      }
+    }
+
+    run()
+    requestAnimationFrame(run)
+  }, [])
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+    if (msgLoading || !activeConvId || messages.length === 0) return
+
+    scrollToBottom(false)
+
+    const container = messagesContainerRef.current
+    if (!container) return
+
+    const observer = new ResizeObserver(() => scrollToBottom(false))
+    observer.observe(container)
+    const timeout = setTimeout(() => observer.disconnect(), 2500)
+
+    return () => {
+      observer.disconnect()
+      clearTimeout(timeout)
+    }
+  }, [messages, msgLoading, activeConvId, scrollToBottom])
+
+  useEffect(() => {
+    if (msgLoading || filePreviews.length === 0) return
+    scrollToBottom(true)
+  }, [filePreviews, msgLoading, scrollToBottom])
+
+  useEffect(() => {
+    const previews = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      type: file.type,
+      name: file.name,
+    }))
+    setFilePreviews(previews)
+    return () => previews.forEach((preview) => URL.revokeObjectURL(preview.url))
+  }, [files])
+
+  const handleFilesSelected = (selected) => {
+    const list = Array.from(selected || [])
+    if (list.length === 0) return
+    setFiles(list)
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  const removeFile = (index) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index))
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
 
   const selectConv = (id) => setSearchParams({ conv: String(id) })
 
@@ -258,7 +325,7 @@ export default function ChatPage() {
       }
 
       setContent('')
-      setFiles([])
+      clearFiles()
       setReplyTo(null)
       await loadConversations()
     } catch (err) {
@@ -409,7 +476,7 @@ export default function ChatPage() {
       )}
 
       <div className="grid h-[calc(100vh-220px)] min-h-[480px] grid-cols-1 overflow-hidden rounded-xl border border-border bg-white md:grid-cols-[280px_1fr]">
-        <aside className="flex flex-col border-b border-border md:border-b-0 md:border-r">
+        <aside className="flex min-h-0 flex-col overflow-hidden border-b border-border md:border-b-0 md:border-r">
           <div className="flex border-b border-border">
             <button
               type="button"
@@ -448,7 +515,7 @@ export default function ChatPage() {
           </div>
         </aside>
 
-        <section className="flex min-w-0 flex-col">
+        <section className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden">
           {!activeConvId ? (
             <div className="flex flex-1 items-center justify-center text-muted">
               Chọn cuộc trò chuyện để bắt đầu
@@ -516,7 +583,7 @@ export default function ChatPage() {
                 />
               )}
 
-              <div className="flex-1 space-y-3 overflow-y-auto p-4">
+              <div ref={messagesContainerRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4">
                 {msgLoading ? (
                   <LoadingSpinner className="py-8" />
                 ) : (
@@ -547,7 +614,7 @@ export default function ChatPage() {
                 <div ref={messagesEndRef} />
               </div>
 
-              <div className="border-t border-border p-3">
+              <div className="shrink-0 border-t border-border bg-white p-3">
                 {replyTo && (
                   <div className="mb-2 flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-sm">
                     <span className="truncate text-muted">
@@ -572,18 +639,62 @@ export default function ChatPage() {
                     </button>
                   </div>
                 )}
-                <div className="flex gap-2">
+                {filePreviews.length > 0 && (
+                  <div className="mb-2 flex flex-wrap gap-2">
+                    {filePreviews.map((preview, index) => (
+                      <div key={`${preview.name}-${index}`} className="relative">
+                        {preview.type.startsWith('video/') ? (
+                          <video
+                            src={preview.url}
+                            className="h-16 w-16 rounded-lg object-cover ring-1 ring-slate-200"
+                          />
+                        ) : preview.type.startsWith('image/') ? (
+                          <img
+                            src={preview.url}
+                            alt=""
+                            className="h-16 w-16 rounded-lg object-cover ring-1 ring-slate-200"
+                          />
+                        ) : (
+                          <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-slate-100 px-1 text-center text-[10px] text-slate-500 ring-1 ring-slate-200">
+                            {preview.name}
+                          </div>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => removeFile(index)}
+                          className="absolute -right-1.5 -top-1.5 rounded-full bg-slate-800 p-0.5 text-white shadow-sm hover:bg-slate-700"
+                          aria-label="Xóa tệp"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="flex items-end gap-2">
                   {!editingMsg && (
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*,video/*"
-                      className="max-w-[120px] text-xs"
-                      onChange={(e) => setFiles(Array.from(e.target.files || []))}
-                    />
+                    <>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        multiple
+                        accept="image/*,video/*"
+                        className="hidden"
+                        onChange={(e) => handleFilesSelected(e.target.files)}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-indigo-50 hover:text-indigo-600"
+                        title="Gửi ảnh hoặc video"
+                        aria-label="Chọn ảnh hoặc video"
+                      >
+                        <ImagePlus size={20} />
+                      </button>
+                    </>
                   )}
                   <input
-                    className="flex-1 rounded-lg border border-border px-3 py-2 text-sm outline-none focus:border-primary"
+                    className="min-w-0 flex-1 rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/10"
                     placeholder={
                       editingMsg ? 'Nội dung mới...' : replyTo ? 'Trả lời...' : 'Nhập tin nhắn...'
                     }
@@ -594,7 +705,7 @@ export default function ChatPage() {
                     }}
                     onKeyDown={handleKeyDown}
                   />
-                  <Button type="button" onClick={handleSend}>
+                  <Button type="button" className="shrink-0" onClick={handleSend}>
                     {editingMsg ? 'Lưu' : 'Gửi'}
                   </Button>
                 </div>
