@@ -4,8 +4,8 @@ import { formatDateTime, REACTION_EMOJI } from "../../utils/helpers";
 export default function AdminPostDetailPanel({ post, loading, onClose }) {
   if (!post && !loading) {
     return (
-      <aside className="flex h-full min-h-[420px] flex-col items-center justify-center rounded-xl border border-dashed border-slate-700 bg-slate-900/50 p-6 text-center">
-        <FileText size={40} className="mb-3 text-slate-600" />
+      <aside className="flex h-full min-h-[420px] flex-col items-center justify-center rounded-[32px] border border-dashed border-slate-300 bg-white/70 p-6 text-center backdrop-blur-xl">
+        <FileText size={40} className="mb-3 text-slate-400" />
         <p className="text-sm text-slate-500">
           Chọn bài viết và bấm &quot;Xem&quot;
         </p>
@@ -15,11 +15,11 @@ export default function AdminPostDetailPanel({ post, loading, onClose }) {
 
   if (loading) {
     return (
-      <aside className="rounded-xl border border-slate-800 bg-slate-900 p-6">
+      <aside className="rounded-[32px] border border-slate-200 bg-white/80 p-6 backdrop-blur-xl">
         <div className="animate-pulse space-y-3">
-          <div className="h-4 w-24 rounded bg-slate-800" />
-          <div className="h-20 rounded bg-slate-800" />
-          <div className="h-32 rounded bg-slate-800" />
+          <div className="h-4 w-24 rounded bg-slate-200" />
+          <div className="h-20 rounded bg-slate-200" />
+          <div className="h-32 rounded bg-slate-200" />
         </div>
       </aside>
     );
@@ -31,16 +31,16 @@ export default function AdminPostDetailPanel({ post, loading, onClose }) {
   );
 
   return (
-    <aside className="sticky top-6 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-xl border border-slate-800 bg-slate-900">
-      <div className="flex items-center justify-between border-b border-slate-800 px-4 py-3">
-        <h2 className="text-sm font-semibold text-white">
+    <aside className="sticky top-6 max-h-[calc(100vh-6rem)] overflow-y-auto rounded-[32px] border border-slate-200 bg-white/80 backdrop-blur-xl">
+      <div className="flex items-center justify-between border-b border-slate-200 bg-white/80 px-4 py-3">
+        <h2 className="text-sm font-semibold text-slate-800">
           Chi tiết bài viết #{post.id}
         </h2>
         {onClose && (
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-500 hover:bg-slate-800 hover:text-white lg:hidden"
+            className="rounded-lg p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-800 lg:hidden"
           >
             <X size={16} />
           </button>
@@ -61,7 +61,7 @@ export default function AdminPostDetailPanel({ post, loading, onClose }) {
             </div>
           )}
           <div>
-            <p className="font-medium text-white">
+            <p className="font-medium text-slate-800">
               {post.user?.fullName || "Người dùng"}
             </p>
             <p className="text-xs text-slate-500">
@@ -71,21 +71,21 @@ export default function AdminPostDetailPanel({ post, loading, onClose }) {
         </div>
 
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
-          <span className="rounded-full bg-slate-800 px-2 py-0.5 text-slate-300">
+          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-slate-600">
             {post.privacy}
           </span>
-          <span className="rounded-full bg-slate-800 px-2 py-0.5 text-slate-300">
+          <span className="rounded-full bg-slate-100 px-2 py-0.5 text-slate-600">
             {post.postType}
           </span>
           {post.isHidden && (
-            <span className="rounded-full bg-red-500/20 px-2 py-0.5 text-red-400">
+            <span className="rounded-full bg-red-500/20 px-2 py-0.5 text-red-600">
               Đã ẩn
             </span>
           )}
         </div>
 
         {post.content && (
-          <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-slate-300">
+          <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-slate-600">
             {post.content}
           </p>
         )}
@@ -95,7 +95,7 @@ export default function AdminPostDetailPanel({ post, loading, onClose }) {
             {post.medias.map((media) => (
               <div
                 key={media.id}
-                className="overflow-hidden rounded-lg bg-slate-950"
+                className="overflow-hidden rounded-lg bg-slate-100"
               >
                 {media.mediaType === "VIDEO" ? (
                   <video
@@ -125,7 +125,7 @@ export default function AdminPostDetailPanel({ post, loading, onClose }) {
         )}
 
         {totalReactions > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2 text-sm text-slate-400">
+          <div className="mt-4 flex flex-wrap gap-2 text-sm text-slate-500">
             {Object.entries(post.reactions || {}).map(([type, count]) =>
               count > 0 ? (
                 <span key={type}>
@@ -136,7 +136,7 @@ export default function AdminPostDetailPanel({ post, loading, onClose }) {
           </div>
         )}
 
-        <div className="mt-4 rounded-lg bg-slate-950 p-3 text-sm text-slate-400">
+        <div className="mt-4 rounded-lg bg-slate-50 p-3 text-sm text-slate-500">
           {post.commentCount ?? post.comments?.length ?? 0} bình luận
         </div>
 
@@ -148,16 +148,16 @@ export default function AdminPostDetailPanel({ post, loading, onClose }) {
             {post.comments.slice(0, 5).map((c) => (
               <div
                 key={c.id}
-                className="rounded-lg bg-slate-950 px-3 py-2 text-sm"
+                className="rounded-lg bg-slate-50 px-3 py-2 text-sm"
               >
-                <span className="font-medium text-slate-300">
+                <span className="font-medium text-slate-700">
                   User #{c.userId}
                 </span>
                 <span className="text-slate-500">
                   {" "}
                   · {formatDateTime(c.createdAt)}
                 </span>
-                <p className="mt-0.5 text-slate-400">{c.content}</p>
+                <p className="mt-0.5 text-slate-500">{c.content}</p>
               </div>
             ))}
             {post.comments.length > 5 && (

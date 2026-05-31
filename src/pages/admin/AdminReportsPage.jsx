@@ -37,18 +37,18 @@ export default function AdminReportsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white">Báo cáo bài viết</h1>
+      <h1 className="text-2xl font-bold text-slate-800">Báo cáo bài viết</h1>
       <div className="mt-6 space-y-3">
         {reports.map((r) => (
           <div
             key={r.id}
-            className="rounded-xl border border-slate-800 bg-slate-900 p-4 text-slate-300"
+            className="rounded-2xl border border-slate-200 bg-white p-4 text-slate-600 shadow-sm"
           >
-            <p className="font-medium text-white">
+            <p className="font-medium text-slate-800">
               Report #{r.id} — Post #{r.postId}
             </p>
             <p className="mt-1 text-sm">
-              Lý do: <span className="text-amber-400">{r.reason}</span>
+              Lý do: <span className="text-amber-600">{r.reason}</span>
             </p>
             {r.description && <p className="mt-1 text-sm">{r.description}</p>}
             <p className="mt-2 text-xs text-slate-500">{formatDateTime(r.reportedAt)}</p>
@@ -61,7 +61,7 @@ export default function AdminReportsPage() {
           </div>
         ))}
         {reports.length === 0 && (
-          <p className="text-slate-400">Không có báo cáo đang chờ</p>
+          <p className="text-slate-500">Không có báo cáo đang chờ</p>
         )}
       </div>
     </div>

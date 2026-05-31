@@ -33,16 +33,16 @@ export default function AdminQuizPendingPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white">Duyệt Quiz</h1>
+      <h1 className="text-2xl font-bold text-slate-800">Duyệt Quiz</h1>
       <div className="mt-6 space-y-3">
         {quizzes.map((q) => (
           <div
             key={q.id}
-            className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900 p-4"
+            className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
           >
             <div>
-              <p className="font-medium text-white">{q.title}</p>
-              <p className="text-sm text-slate-400">{q.description}</p>
+              <p className="font-medium text-slate-800">{q.title}</p>
+              <p className="text-sm text-slate-500">{q.description}</p>
             </div>
             <div className="flex gap-2">
               <Button onClick={() => review(q.id, true)}>Duyệt</Button>
@@ -53,7 +53,7 @@ export default function AdminQuizPendingPage() {
           </div>
         ))}
         {quizzes.length === 0 && (
-          <p className="text-slate-400">Không có quiz chờ duyệt</p>
+          <p className="text-slate-500">Không có quiz chờ duyệt</p>
         )}
       </div>
     </div>

@@ -5,7 +5,7 @@ export default function AuthLayout({ title, subtitle, children }) {
     <div
       className="
         min-h-screen
-        bg-slate-950
+        bg-slate-50
         flex
         items-center
         justify-center

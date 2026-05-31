@@ -62,13 +62,13 @@ export default function AdminUsersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white">Quản lý người dùng</h1>
+      <h1 className="text-2xl font-bold text-slate-800">Quản lý người dùng</h1>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_300px]">
         <div className="min-w-0">
-          <div className="overflow-x-auto rounded-xl border border-slate-800">
+          <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
             <table className="w-full min-w-[560px] text-left text-sm">
-              <thead className="bg-slate-900 text-slate-400">
+              <thead className="bg-slate-50 text-slate-500">
                 <tr>
                   <th className="px-4 py-3">ID</th>
                   <th className="px-4 py-3">Email</th>
@@ -82,8 +82,8 @@ export default function AdminUsersPage() {
                 {users.map((u) => (
                   <tr
                     key={u.id}
-                    className={`border-t border-slate-800 text-slate-300 transition ${
-                      selectedId === u.id ? 'bg-primary/10' : 'hover:bg-slate-900/50'
+                    className={`border-t border-slate-200 text-slate-600 transition ${
+                      selectedId === u.id ? 'bg-primary/10' : 'hover:bg-slate-50'
                     }`}
                   >
                     <td className="px-4 py-3">{u.id}</td>
@@ -93,8 +93,8 @@ export default function AdminUsersPage() {
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs ${
                           u.status
-                            ? 'bg-emerald-500/20 text-emerald-400'
-                            : 'bg-slate-700 text-slate-400'
+                            ? 'bg-emerald-500/20 text-emerald-600'
+                            : 'bg-slate-100 text-slate-500'
                         }`}
                       >
                         {u.status ? 'Online' : 'Offline'}

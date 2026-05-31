@@ -3,7 +3,7 @@ import { Bell, CheckCheck } from "lucide-react";
 import { useNotifications } from "../../context/NotificationProvider";
 import { formatRelativeTime } from "../../utils/helpers";
 
-export default function NotificationBell({ dark = false }) {
+export default function NotificationBell() {
   const {
     notifications,
     unreadCount,
@@ -33,11 +33,7 @@ export default function NotificationBell({ dark = false }) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`relative rounded-lg p-2 transition ${
-          dark
-            ? "text-slate-300 hover:bg-slate-800"
-            : "text-slate-600 hover:bg-slate-100"
-        }`}
+        className="relative rounded-lg p-2 text-slate-600 transition hover:bg-slate-100"
         aria-label="Thông báo"
       >
         <Bell size={20} />
@@ -49,21 +45,9 @@ export default function NotificationBell({ dark = false }) {
       </button>
 
       {open && (
-        <div
-          className={`absolute right-0 z-50 mt-2 w-80 overflow-hidden rounded-xl border shadow-xl sm:w-96 ${
-            dark ? "border-slate-700 bg-slate-900" : "border-border bg-white"
-          }`}
-        >
-          <div
-            className={`flex items-center justify-between border-b px-4 py-3 ${
-              dark ? "border-slate-700" : "border-border"
-            }`}
-          >
-            <h3
-              className={`font-semibold ${dark ? "text-white" : "text-slate-900"}`}
-            >
-              Thông báo
-            </h3>
+        <div className="absolute right-0 z-50 mt-2 w-80 overflow-hidden rounded-xl border border-border bg-white shadow-xl sm:w-96">
+          <div className="flex items-center justify-between border-b border-border px-4 py-3">
+            <h3 className="font-semibold text-slate-900">Thông báo</h3>
             <button
               type="button"
               onClick={markAllRead}
@@ -75,16 +59,10 @@ export default function NotificationBell({ dark = false }) {
 
           <div className="max-h-96 overflow-y-auto">
             {loading && (
-              <p
-                className={`p-4 text-center text-sm ${dark ? "text-slate-400" : "text-muted"}`}
-              >
-                Đang tải...
-              </p>
+              <p className="p-4 text-center text-sm text-muted">Đang tải...</p>
             )}
             {!loading && notifications.length === 0 && (
-              <p
-                className={`p-6 text-center text-sm ${dark ? "text-slate-400" : "text-muted"}`}
-              >
+              <p className="p-6 text-center text-sm text-muted">
                 Không có thông báo
               </p>
             )}
@@ -93,20 +71,12 @@ export default function NotificationBell({ dark = false }) {
                 key={n.id}
                 type="button"
                 onClick={() => handleClick(n)}
-                className={`block w-full border-b px-4 py-3 text-left transition last:border-0 ${
-                  dark
-                    ? `border-slate-800 hover:bg-slate-800 ${!n.isRead ? "bg-slate-800/50" : ""}`
-                    : `border-slate-50 hover:bg-slate-50 ${!n.isRead ? "bg-primary/5" : ""}`
+                className={`block w-full border-b border-slate-50 px-4 py-3 text-left transition last:border-0 hover:bg-slate-50 ${
+                  !n.isRead ? "bg-primary/5" : ""
                 }`}
               >
-                <p
-                  className={`text-sm ${dark ? "text-slate-200" : "text-slate-800"}`}
-                >
-                  {n.content}
-                </p>
-                <p
-                  className={`mt-1 text-xs ${dark ? "text-slate-500" : "text-muted"}`}
-                >
+                <p className="text-sm text-slate-800">{n.content}</p>
+                <p className="mt-1 text-xs text-muted">
                   {formatRelativeTime(n.createAt)}
                 </p>
               </button>

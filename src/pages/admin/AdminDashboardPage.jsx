@@ -11,20 +11,20 @@ const cards = [
 export default function AdminDashboardPage() {
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white">Tổng quan</h1>
-      <p className="mt-1 text-slate-400">Quản trị hệ thống DATN Social</p>
+      <h1 className="text-2xl font-bold text-slate-800">Tổng quan</h1>
+      <p className="mt-1 text-slate-500">Quản trị hệ thống DATN Social</p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map(({ to, icon: Icon, label, color }) => (
           <Link
             key={to}
             to={to}
-            className="rounded-xl border border-slate-800 bg-slate-900 p-5 transition hover:border-slate-700 hover:bg-slate-800"
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-slate-300 hover:shadow-md"
           >
             <div className={`mb-3 inline-flex rounded-lg ${color} p-2`}>
               <Icon size={20} className="text-white" />
             </div>
-            <p className="font-medium text-white">{label}</p>
+            <p className="font-medium text-slate-800">{label}</p>
           </Link>
         ))}
       </div>

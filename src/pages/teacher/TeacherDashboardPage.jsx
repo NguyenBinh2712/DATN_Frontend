@@ -75,7 +75,7 @@ export default function TeacherDashboardPage() {
           <BookOpen className="text-emerald-700" size={24} />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
+          <h1 className="text-2xl font-bold text-slate-800">Teacher Dashboard</h1>
           <p className="text-sm text-muted">Quản lý nhóm học tập và bài kiểm tra</p>
         </div>
       </div>

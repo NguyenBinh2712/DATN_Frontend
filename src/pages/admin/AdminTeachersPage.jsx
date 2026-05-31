@@ -41,14 +41,14 @@ export default function AdminTeachersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white">Đơn đăng ký giáo viên</h1>
+      <h1 className="text-2xl font-bold text-slate-800">Đơn đăng ký giáo viên</h1>
       <div className="mt-6 space-y-4">
         {applications.map((app) => (
           <div
             key={app.id}
-            className="rounded-xl border border-slate-800 bg-slate-900 p-4 text-slate-300"
+            className="rounded-2xl border border-slate-200 bg-white p-4 text-slate-600 shadow-sm"
           >
-            <p className="font-medium text-white">
+            <p className="font-medium text-slate-800">
               #{app.id} — {app.applicantEmail}
             </p>
             <p className="mt-2 text-sm">{app.reason}</p>
@@ -71,7 +71,7 @@ export default function AdminTeachersPage() {
               )}
             </div>
             <textarea
-              className="mt-3 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-white"
+              className="mt-3 w-full rounded-xl border border-slate-200 bg-white/80 px-3 py-2 text-sm text-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/10"
               placeholder="Ghi chú duyệt..."
               value={reviewNote[app.id] || ''}
               onChange={(e) =>
@@ -87,7 +87,7 @@ export default function AdminTeachersPage() {
           </div>
         ))}
         {applications.length === 0 && (
-          <p className="text-slate-400">Không có đơn chờ duyệt</p>
+          <p className="text-slate-500">Không có đơn chờ duyệt</p>
         )}
       </div>
     </div>
