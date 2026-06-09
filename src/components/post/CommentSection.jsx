@@ -63,7 +63,7 @@ export default function CommentSection({
     <div key={comment.id} className={depth > 0 ? "ml-6 mt-2" : "mt-3"}>
       <div className="rounded-lg bg-slate-50 px-3 py-2">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-sm font-medium">User #{comment.userId}</span>
+          <span className="text-sm font-medium">{comment.fullName}</span>
           <span className="text-xs text-muted">
             {formatRelativeTime(comment.createdAt)}
           </span>

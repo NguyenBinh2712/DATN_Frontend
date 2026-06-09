@@ -4,6 +4,7 @@ import { groupApi } from '../../api/group.api'
 import { friendApi } from '../../api/friend.api'
 import { postApi } from '../../api/post.api'
 import { quizApi } from '../../api/quiz.api'
+import QuizCard from '../../components/quiz/QuizCard'
 import { useAuth } from '../../context/AuthContext'
 import CreatePostBox from '../../components/post/CreatePostBox'
 import PostCard from '../../components/post/PostCard'
@@ -15,7 +16,7 @@ import { useBlockedUsers } from '../../hooks/useBlockedUsers'
 export default function GroupDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { userId } = useAuth()
+  const { userId, isTeacher } = useAuth()
   const { blockedIds } = useBlockedUsers()
 
   const [group, setGroup] = useState(null)
@@ -284,35 +285,30 @@ export default function GroupDetailPage() {
       )}
 
       {tab === 'quizzes' && (
-        <div className="space-y-3">
+        <div className="space-y-4">
+          {isOwner && isTeacher && (
+            <div className="flex justify-end">
+              <Link to={`/teacher/quizzes/create?groupId=${id}`}>
+                <Button className="!py-1 !text-xs">Tạo quiz cho nhóm</Button>
+              </Link>
+            </div>
+          )}
           {!isMember ? (
-            <p className="text-center text-muted">Tham gia nhóm để xem và làm quiz</p>
+            <p className="text-center text-slate-500">Tham gia nhóm để xem và làm quiz</p>
           ) : quizzesLoading ? (
             <LoadingSpinner />
           ) : quizzes.length === 0 ? (
-            <p className="text-center text-muted">Chưa có quiz trong nhóm</p>
+            <div className="rounded-2xl border-2 border-dashed border-indigo-200 bg-indigo-50/40 p-10 text-center">
+              <p className="font-medium text-slate-500">Chưa có quiz trong nhóm</p>
+            </div>
           ) : (
             quizzes.map((q) => (
-              <div
+              <QuizCard
                 key={q.id}
-                className="rounded-xl border border-border bg-white p-4"
-              >
-                <h3 className="font-semibold">{q.title}</h3>
-                <p className="mt-1 line-clamp-2 text-sm text-muted">{q.description}</p>
-                <p className="mt-2 text-xs text-muted">
-                  {q.time} phút · {q.maxAttempts} lần làm
-                </p>
-                <div className="mt-3 flex gap-2">
-                  <Link to={`/quizzes/${q.id}/take`}>
-                    <Button className="!py-1 !text-xs">Làm bài</Button>
-                  </Link>
-                  <Link to={`/quizzes/${q.id}/attempts`}>
-                    <Button variant="secondary" className="!py-1 !text-xs">
-                      Lịch sử
-                    </Button>
-                  </Link>
-                </div>
-              </div>
+                quiz={q}
+                takeLink={`/quizzes/${q.id}/take`}
+                attemptsLink={`/quizzes/${q.id}/attempts`}
+              />
             ))
           )}
         </div>

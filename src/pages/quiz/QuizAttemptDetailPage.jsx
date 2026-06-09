@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { quizApi } from '../../api/quiz.api'
+import AiReviewPanel from '../../components/quiz/AiReviewPanel'
+import { AttemptStatusBadge } from '../../components/quiz/QuizStatusBadge'
 import { Button } from '../../components/common/Button'
 import LoadingSpinner from '../../components/common/LoadingSpinner'
 import { formatDateTime, getErrorMessage } from '../../utils/helpers'
+import { CARD_SHADOW } from '../../utils/quizHelpers'
 
 export default function QuizAttemptDetailPage() {
   const { id: quizId, attemptId } = useParams()
@@ -56,11 +59,12 @@ export default function QuizAttemptDetailPage() {
   }
 
   if (loading) return <LoadingSpinner />
+
   if (!attempt) {
     return (
-      <p className="text-muted">
+      <p className="text-slate-500">
         Không tìm thấy bài làm.{' '}
-        <Link to={`/quizzes/${quizId}/attempts`} className="text-primary">
+        <Link to={`/quizzes/${quizId}/attempts`} className="text-indigo-600 hover:underline">
           Quay lại
         </Link>
       </p>
@@ -71,49 +75,57 @@ export default function QuizAttemptDetailPage() {
 
   return (
     <div className="fade-in-up mx-auto max-w-2xl space-y-4">
-      <div className="flex items-center gap-3">
-        <Link to={`/quizzes/${quizId}/attempts`} className="text-sm text-primary hover:underline">
+      <div>
+        <Link to={`/quizzes/${quizId}/attempts`} className="text-sm text-indigo-600 hover:underline">
           ← Lịch sử
         </Link>
-        <h1 className="text-xl font-bold">Chi tiết lần {attempt.attemptNumber}</h1>
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <h1 className="text-xl font-bold text-slate-800">Lần {attempt.attemptNumber}</h1>
+          <AttemptStatusBadge status={attempt.status} />
+        </div>
       </div>
 
-      <div className="rounded-xl border border-border bg-white p-4">
-        <p>
-          Điểm: <strong>{attempt.score}</strong> / {attempt.totalPoints} ({attempt.scorePercent}
-          %)
+      <div className="rounded-2xl border border-slate-100 bg-white p-5" style={{ boxShadow: CARD_SHADOW }}>
+        <p className="text-lg text-slate-800">
+          Điểm:{' '}
+          <strong className="text-indigo-600">
+            {attempt.score} / {attempt.totalPoints}
+          </strong>{' '}
+          ({attempt.scorePercent}%)
         </p>
-        <p className="text-sm text-muted">Nộp lúc: {formatDateTime(attempt.submittedAt)}</p>
+        <p className="mt-1 text-sm text-slate-500">Nộp lúc: {formatDateTime(attempt.submittedAt)}</p>
         {attempt.canRetake && (
-          <Link to={`/quizzes/${quizId}/take`} className="mt-2 inline-block">
+          <Link to={`/quizzes/${quizId}/take`} className="mt-3 inline-block">
             <Button className="!py-1 !text-xs">Làm lại</Button>
           </Link>
         )}
       </div>
 
       <div className="space-y-3">
-        <h2 className="font-semibold">Câu trả lời</h2>
+        <h2 className="font-semibold text-slate-800">Câu trả lời</h2>
         {attempt.answers?.map((ans, i) => (
           <div
             key={ans.questionId}
-            className={`rounded-xl border p-4 ${
-              ans.isCorrect ? 'border-emerald-200 bg-emerald-50' : 'border-border bg-white'
+            className={`rounded-2xl border p-4 ${
+              ans.isCorrect ? 'border-emerald-200 bg-emerald-50/60' : 'border-slate-200 bg-white'
             }`}
           >
-            <p className="font-medium">
+            <p className="font-medium text-slate-800">
               {i + 1}. {ans.questionText}
             </p>
-            <p className="mt-2 text-sm">
+            <p className="mt-2 text-sm text-slate-600">
               {ans.textAnswer ||
                 (ans.selectedOptionIndexes?.length
                   ? `Lựa chọn: ${ans.selectedOptionIndexes.map((x) => x + 1).join(', ')}`
                   : 'Không trả lời')}
             </p>
-            <p className="mt-1 text-sm text-muted">
+            <p className={`mt-1 text-sm ${ans.isCorrect ? 'text-emerald-600' : 'text-red-600'}`}>
               {ans.isCorrect ? '✓ Đúng' : '✗ Sai'} · {ans.pointsEarned}/{ans.maxPoints} điểm
             </p>
             {ans.explanation && (
-              <p className="mt-2 text-sm text-slate-600">Giải thích: {ans.explanation}</p>
+              <p className="mt-2 rounded-xl bg-white/80 p-3 text-sm text-slate-600">
+                Giải thích: {ans.explanation}
+              </p>
             )}
           </div>
         ))}
@@ -121,63 +133,15 @@ export default function QuizAttemptDetailPage() {
 
       {canRequestAi && (
         <Button loading={aiLoading} onClick={requestAiReview}>
-          {attempt.aiReview ? 'Tải lại AI Review' : 'Yêu cầu AI Review'}
+          Yêu cầu AI Review
         </Button>
       )}
 
-      {aiError && <p className="text-sm text-red-600">{aiError}</p>}
+      {aiError && (
+        <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">{aiError}</p>
+      )}
 
       {aiReview && <AiReviewPanel review={aiReview} />}
-    </div>
-  )
-}
-
-function AiReviewPanel({ review }) {
-  const weaknesses = Array.isArray(review.weaknessAreas)
-    ? review.weaknessAreas
-    : review.weaknessAreas
-      ? [review.weaknessAreas]
-      : []
-
-  return (
-    <div className="space-y-4 rounded-xl border border-primary/30 bg-primary/5 p-4">
-      <h2 className="font-semibold text-primary">AI Review</h2>
-      {review.overallAnalysis && (
-        <div>
-          <p className="text-sm font-medium">Tổng quan</p>
-          <p className="mt-1 text-sm">{review.overallAnalysis}</p>
-        </div>
-      )}
-      {weaknesses.length > 0 && (
-        <div>
-          <p className="text-sm font-medium">Điểm yếu</p>
-          <ul className="mt-1 list-inside list-disc text-sm">
-            {weaknesses.map((w, i) => (
-              <li key={i}>{w}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {review.studyRoadmap && (
-        <div>
-          <p className="text-sm font-medium">Lộ trình học</p>
-          <p className="mt-1 whitespace-pre-wrap text-sm">{review.studyRoadmap}</p>
-        </div>
-      )}
-      {review.perQuestion?.map((q) => (
-        <div key={q.questionIndex} className="rounded-lg bg-white p-3 text-sm">
-          <p className="font-medium">
-            Câu {q.questionIndex + 1}: {q.questionText}
-          </p>
-          <p className="mt-1">{q.analysis}</p>
-          {q.correctApproach && (
-            <p className="mt-1 text-muted">Hướng làm đúng: {q.correctApproach}</p>
-          )}
-        </div>
-      ))}
-      {review.generatedAt && (
-        <p className="text-xs text-muted">Tạo lúc: {formatDateTime(review.generatedAt)}</p>
-      )}
     </div>
   )
 }
